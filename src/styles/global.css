@@ -1,0 +1,14 @@
+h1 {
+  font-size: 4em;
+}
+h2 {
+  font-size: 3.5em;
+}
+
+i:hover {
+  cursor: pointer;
+}
+
+body {
+	font-size: 1.5em;
+}
