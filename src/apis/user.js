@@ -37,10 +37,9 @@ export function assignRoletoUser (params) {
 
 export function newUser (params) {
   let {
-    user_id,
-    role_id,
+    mobile,
     token = TOKEN
   } = params
 
-  return postApi('/user/new', {user_id, role_id, token})
+  return postApi('/user/new', {mobile, token})
 }

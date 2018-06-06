@@ -6,7 +6,8 @@ import {
 } from '@/apis/role'
 
 const state = {
-  roles: []
+  roles: [],
+  total: 0
 }
 
 const getters = {
@@ -21,13 +22,20 @@ const getters = {
       return role
     })
     return new_roles
-  }
+  },
+
+  roleTotal: state => state.total
 }
 
 const actions = {
   allRoles ({commit, state}, {limit = 10, skip = 0}) {
     getAllRoles({limit, skip}).then(data => {
-      commit('setRoles', {roles: data.roles})
+      if (data.code === 0) {
+        commit('setRoles', {roles: data.roles, total: data.total})
+        commit('setMessage', data.message)
+        return
+      }
+      commit('setError', {message: data.message})
     }).catch(err => {
       commit('setError', err)
     })
@@ -36,6 +44,11 @@ const actions = {
   createRole ({commit, state}, {name}) {
     newRole({name}).then(data => {
       // console.log(data)
+      if (data.code === 0) {
+        commit('setMessage', data.message)
+        return
+      }
+      commit('setError', {message: data.message})
     }).catch(err => {
       // console.error(err)
       commit('setError', err)
@@ -45,6 +58,11 @@ const actions = {
   assignPerm ({commit, state}, {role_id, perm_id}) {
     assignPermtoRole({role_id, perm_id}).then(data => {
       // console.log(data)
+      if (data.code === 0) {
+        commit('setMessage', data.message)
+        return
+      }
+      commit('setError', {message: data.message})
     }).catch(err => {
       // console.error(err)
       commit('setError', err)
@@ -54,6 +72,11 @@ const actions = {
   revokePerm ({commit, state}, {role_id, perm_id}) {
     revokePermfromRole({role_id, perm_id}).then(data => {
       // console.log(data)
+      if (data.code === 0) {
+        commit('setMessage', data.message)
+        return
+      }
+      commit('setError', {message: data.message})
     }).catch(err => {
       // console.error(err)
       commit('setError', err)
@@ -62,8 +85,9 @@ const actions = {
 }
 
 const mutations = {
-  setRoles (state, {roles}) {
+  setRoles (state, {roles, total}) {
     state.roles = roles
+    state.total = total
   }
 }
 

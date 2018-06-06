@@ -126,6 +126,7 @@ export default {
 
 <style type="text/css" scoped>
   .perm-card-wrap {
+    text-align: center;
     margin: 10px;
     min-height: 150px;
     width: 320px;

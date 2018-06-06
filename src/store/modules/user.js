@@ -1,4 +1,5 @@
 import {
+  newUser,
   getAllUsers,
   revokeRolefromUser,
   assignRoletoUser
@@ -6,7 +7,8 @@ import {
 
 // initial state
 const state = {
-  users: []
+  users: [],
+  total: 0
 }
 
 // getters
@@ -33,35 +35,51 @@ const getters = {
     return new_us
   },
 
-  originUsers: state => state.users
+  originUsers: state => state.users,
+
+  userTotal: state => state.total
+
 }
 
 // actions for api connect
 const actions = {
-  addUser ({commit, state}) {
-    let user = {
-      id: 1,
-      userId: '1298173',
-      roles: ['12312', '12312'],
-      perms: []
-    }
-    commit('addUser', {user})
+  addUser ({commit, state}, {mobile}) {
+    newUser({mobile}).then(data => {
+      // console.log(data)
+      if (data.code === 0) {
+        commit('setMessage', data.message)
+        return
+      }
+      commit('setError', {message: data.message})
+    }).catch(err => {
+      commit('setError', err)
+    })
   },
 
   allUsers ({commit, state}, {limit = 10, skip = 0}) {
-    console.log('all users')
+    // console.log('all users')
     getAllUsers({limit, skip}).then(data => {
-      commit('refreshUsers', {users: data.users})
+      if (data.code === 0) {
+        commit('refreshUsers', {users: data.users, total: data.total})
+        commit('setMessage', data.message)
+        return
+      }
+      commit('setError', {message: data.message})
     }).catch(err => {
-      console.error(err)
+      // console.error(err)
       commit('setError', err)
     })
   },
 
   assignRole ({commit, state}, {userId, roleId}) {
-    console.log('assign users')
+    // console.log('assign users')
     assignRoletoUser({user_id: userId, role_id: roleId}).then(data => {
       // console.log(data)
+      if (data.code === 0) {
+        commit('setMessage', data.message)
+        return
+      }
+      commit('setError', {message: data.message})
     }).catch(err => {
       console.error(err)
       commit('setError', err)
@@ -69,9 +87,14 @@ const actions = {
   },
 
   revokeRole ({commit, state}, {userId, roleId}) {
-    console.log('revoke users')
+    // console.log('revoke users')
     revokeRolefromUser({user_id: userId, role_id: roleId}).then(data => {
       // console.log(data)
+      if (data.code === 0) {
+        commit('setMessage', data.message)
+        return
+      }
+      commit('setError', {message: data.message})
     }).catch(err => {
       console.error(err)
       commit('setError', err)
@@ -85,8 +108,9 @@ const mutations = {
     state.users.push(user)
   },
 
-  refreshUsers (state, {users}) {
+  refreshUsers (state, {users, total}) {
     state.users = users
+    state.total = total
   }
 }
 

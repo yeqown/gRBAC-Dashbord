@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'error'
+      'error', 'message'
     ])
   },
 
@@ -26,6 +26,14 @@ export default {
       let desc = newVal.message || newVal.toString()
       this.$Notice.error({title: '错误提示', desc: desc})
       // console.log(newVal, desc)
+    },
+
+    message (newVal, oldVal) {
+      console.log(newVal)
+      if (!newVal) {
+        return
+      }
+      this.$Notice.success({title: '提示', desc: newVal})
     }
   }
 }

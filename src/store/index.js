@@ -8,10 +8,12 @@ Vue.use(Vuex)
 
 const RequestError = {
   state: {
-    error: null
+    error: null,
+    message: null
   },
   getters: {
-    error: state => state.error
+    error: state => state.error,
+    message: state => state.message
   },
   mutations: {
     setError (state, error) {
@@ -20,6 +22,13 @@ const RequestError = {
         state.error = null
       }, 3000)
       // console.log('222222222', state)
+    },
+
+    setMessage (state, message) {
+      state.message = message
+      setTimeout(() => {
+        state.message = null
+      }, 3000)
     },
 
     resetError (state) {

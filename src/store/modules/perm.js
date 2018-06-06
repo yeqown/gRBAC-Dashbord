@@ -5,37 +5,59 @@ import {
 } from '@/apis/perm'
 
 const state = {
-  perms: []
+  perms: [],
+  total: 0
 }
 
 const getters = {
-  originPerms: state => state.perms
+  originPerms: state => {
+    return state.perms.map(perm => {
+      perm.key = perm.id
+      perm.disabled = false
+      return perm
+    })
+  }
 }
 
 const actions = {
   allPerms ({commit, state}, {limit = 10, skip = 0}) {
     getAllPerms({limit, skip}).then(data => {
-      commit('setPerms', {perms: data.permissions})
+      if (data.code === 0) {
+        commit('setPerms', {perms: data.permissions})
+        commit('setMessage', data.message)
+        return
+      }
+      commit('setError', {message: data.message})
     }).catch(err => {
-      console.log('err', err)
+      // console.log('err', err)
       commit('setError', err)
     })
   },
 
   createPerm ({commit, state}, {name, desc}) {
     newPerm({name, desc}).then(data => {
-      console.log(data)
+      // console.log(data)
+      if (data.code === 0) {
+        commit('setMessage', data.message)
+        return
+      }
+      commit('setError', {message: data.message})
     }).catch(err => {
-      console.error(err)
+      // console.error(err)
       commit('setError', err)
     })
   },
 
   updatePerm ({commit, state}, {name, desc, id}) {
     editPerm({name, desc, id}).then(data => {
-      console.log(data)
+      // console.log(data)
+      if (data.code === 0) {
+        commit('setMessage', data.message)
+        return
+      }
+      commit('setError', {message: data.message})
     }).catch(err => {
-      console.error(err)
+      // console.error(err)
       commit('setError', err)
     })
   }

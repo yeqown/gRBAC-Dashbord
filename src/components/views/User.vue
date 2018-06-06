@@ -1,12 +1,13 @@
 <!-- manage users -->
 <template>
   <div class="user-wrap">
-    <div class="user-head">
+    <div class="user-head" @click="showNewUserModal">
       创建新用户
     </div>
 
     <Table border :columns="columns" :data="users"/>
-    <!-- modal -->
+
+    <!-- tranfer role modal -->
     <Modal
       v-model="modalShow"
       :title="`变更角色 - ${selectedUserID}`"
@@ -15,19 +16,37 @@
         :data="roles"
         :target-keys="target_roles"
         :render-format="renderTransferRole"
-        :titles="['所有角色', '拥有角色']"
+        :titles="['未拥有角色', '拥有角色']"
         @on-change="hdlChangeRole"
       />
     </Modal>
+
+    <!-- new usr modal -->
+    <Modal
+      v-model="modalNewUserShow"
+      title="新增用户"
+      @on-ok="addUser({mobile: newUserForm.userId})"
+    >
+      <Form :model="newUserForm" :label-width="80">
+        <FormItem label="新用户标识">
+          <Input v-model="newUserForm.userId"/>
+        </FormItem>
+      </Form>
+    </Modal>
+
     <!-- footer -->
     <div class="user-foot">
-      <Page :total="total" :current="page" show-total size="small"></Page>
+      <Page :total="total" :current="page" show-total
+        size="small" @on-change="hdlPageChange"></Page>
     </div>
   </div>
 </template>
 
 <script type="text/javascript">
 import { mapGetters, mapActions } from 'vuex'
+const emptyNewUser = {
+  userId: ''
+}
 export default {
   name: 'User',
   data () {
@@ -102,11 +121,12 @@ export default {
         }
       ],
       modalShow: false,
+      modalNewUserShow: false,
       target_roles: [],
       selectedUserID: '',
       selectedID: '',
       page: 1,
-      total: 10
+      newUserForm: emptyNewUser
     }
   },
 
@@ -114,13 +134,14 @@ export default {
     ...mapGetters({
       users: 'usersMaptoList',
       oriUsers: 'originUsers',
-      roles: 'rolesMaptoList'
+      roles: 'rolesMaptoList',
+      total: 'userTotal'
     })
   },
 
   methods: {
     ...mapActions([
-      'allUsers', 'allRoles', 'assignRole', 'revokeRole'
+      'allUsers', 'allRoles', 'assignRole', 'revokeRole', 'addUser'
     ]),
 
     async hdlChangeRole (newTargetKeys, direction, moveKeys) {
@@ -147,6 +168,14 @@ export default {
 
     renderTransferRole: (role) => {
       return role.name
+    },
+
+    showNewUserModal () {
+      this.modalNewUserShow = true
+    },
+
+    hdlPageChange (page) {
+      this.page = page
     }
   },
 
@@ -154,7 +183,7 @@ export default {
     modalShow (newVal, oldVal) {
       // means: hide modal
       if (!newVal) {
-        this.allUsers({limit: 10, skip: 0})
+        this.allUsers({skip: (this.page - 1) * 10})
         return
       }
 
@@ -162,7 +191,7 @@ export default {
       for (let i = 0; i < this.oriUsers.length; i++) {
         let _cur = this.oriUsers[i]
         // console.log('user: ', _cur)
-        if (_cur.user_id === this.selectedUserID) {
+        if (_cur.id === this.selectedID) {
           usr = _cur
           break
         }
@@ -173,18 +202,30 @@ export default {
         return
       }
 
-      let own_roles = {}
+      // let own_roles = {}
       this.target_roles = []
       usr.roles.map(role => {
         this.target_roles.push(role.id)
-        own_roles[role.id] = role
+        // own_roles[role.id] = role
       })
+    },
+
+    modalNewUserShow (newVal, oldVal) {
+      // close new user modal
+      if (!newVal) {
+        this.newUserForm = emptyNewUser
+        this.allUsers({skip: (this.page - 1) * 10})
+      }
+    },
+
+    page (newVal, oldVal) {
+      this.allUsers({skip: (this.page - 1) * 10})
     }
   },
 
   created () {
-    this.allUsers({limit: 10, skip: 0})
-    this.allRoles({limit: 10, skip: 0})
+    this.allUsers({skip: (this.page - 1) * 10})
+    this.allRoles({skip: (this.page - 1) * 10})
   }
 }
 </script>

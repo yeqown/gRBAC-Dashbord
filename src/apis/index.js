@@ -2,7 +2,8 @@ import axios from 'axios'
 import querystring from 'querystring'
 // import {parse} from 'url'
 
-const API_BASE_URL = 'http://localhost:25050'
+// const API_BASE_URL = 'http://localhost:25050'
+const API_BASE_URL = 'https://api.dev.gogofinance.com/auth'
 
 class ApiHttpError {
   constructor (code, message) {
