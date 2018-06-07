@@ -180,14 +180,13 @@ export default {
         return
       }
 
-      console.log(role)
+      // console.log(role)
       // let own_perms = {}
       this.target_perms = []
       role.permissions.map(perm => {
         this.target_perms.push(perm.id)
       })
-
-      console.log(this.target_perms)
+      // console.log(this.target_perms)
     },
 
     page (newVal, oldVal) {

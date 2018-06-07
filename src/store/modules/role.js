@@ -32,7 +32,7 @@ const actions = {
     getAllRoles({limit, skip}).then(data => {
       if (data.code === 0) {
         commit('setRoles', {roles: data.roles, total: data.total})
-        commit('setMessage', data.message)
+        commit('setMessage', '获取角色列表' + data.message)
         return
       }
       commit('setError', {message: data.message})
@@ -45,7 +45,7 @@ const actions = {
     newRole({name}).then(data => {
       // console.log(data)
       if (data.code === 0) {
-        commit('setMessage', data.message)
+        commit('setMessage', '新建角色' + data.message)
         return
       }
       commit('setError', {message: data.message})
@@ -59,7 +59,7 @@ const actions = {
     assignPermtoRole({role_id, perm_id}).then(data => {
       // console.log(data)
       if (data.code === 0) {
-        commit('setMessage', data.message)
+        commit('setMessage', '角色增加权限' + data.message)
         return
       }
       commit('setError', {message: data.message})
@@ -73,7 +73,7 @@ const actions = {
     revokePermfromRole({role_id, perm_id}).then(data => {
       // console.log(data)
       if (data.code === 0) {
-        commit('setMessage', data.message)
+        commit('setMessage', '角色移除权限' + data.message)
         return
       }
       commit('setError', {message: data.message})

@@ -47,7 +47,7 @@ const actions = {
     newUser({mobile}).then(data => {
       // console.log(data)
       if (data.code === 0) {
-        commit('setMessage', data.message)
+        commit('setMessage', '新建用户' + data.message)
         return
       }
       commit('setError', {message: data.message})
@@ -61,7 +61,7 @@ const actions = {
     getAllUsers({limit, skip}).then(data => {
       if (data.code === 0) {
         commit('refreshUsers', {users: data.users, total: data.total})
-        commit('setMessage', data.message)
+        commit('setMessage', '获取用户列表' + data.message)
         return
       }
       commit('setError', {message: data.message})
@@ -76,7 +76,7 @@ const actions = {
     assignRoletoUser({user_id: userId, role_id: roleId}).then(data => {
       // console.log(data)
       if (data.code === 0) {
-        commit('setMessage', data.message)
+        commit('setMessage', '用户赋予权限' + data.message)
         return
       }
       commit('setError', {message: data.message})
@@ -91,7 +91,7 @@ const actions = {
     revokeRolefromUser({user_id: userId, role_id: roleId}).then(data => {
       // console.log(data)
       if (data.code === 0) {
-        commit('setMessage', data.message)
+        commit('setMessage', '用户移除权限' + data.message)
         return
       }
       commit('setError', {message: data.message})

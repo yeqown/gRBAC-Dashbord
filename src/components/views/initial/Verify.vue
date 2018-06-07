@@ -2,13 +2,18 @@
   <div>
     <div id="init-admin-wrap">
       <div id="init-admin-head">
-        <h2>Init Super Admin</h2>
+        <h2>Verify Root-admin Token</h2>
         <p>gRBAC-Server initial setup is required. An admin user has been created and a password generated. Please use the following password to proceed to installation:</p>
         <code>e7a57e0abb8f461f97e1f7c22bf5d97b</code>
         <p>This may also be found at: path/to/gRBAC-Server/secrets/initialAdminPassword</p>
       </div>
+
+      <div id="init-admin-input">
+        <Input placeholder="Input your token here" v-model="verifyToken" size="large"/>
+      </div>
+
       <div id="init-admin-btn">
-        <Button type="primary" size="large" @click="gotoDashbord">Next Step</Button>
+        <Button type="primary" size="large" @click="gotoDashbord"> Continue </Button>
       </div>
     </div>
   </div>
@@ -16,15 +21,41 @@
 
 <script type="text/javascript">
 import '@/styles/global.css'
+import {VerifiedToken} from '@/config'
+import {mapMutations, mapGetters} from 'vuex'
 export default {
-  name: 'CreateAdmin',
+  name: 'Verify',
   data () {
-    return {}
+    return {
+      verifyToken: ''
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      verified: 'verified'
+    })
   },
 
   methods: {
+    ...mapMutations({
+      setVerified: 'setVerified',
+      setError: 'setError'
+    }),
+
     gotoDashbord () {
-      // console.log('goto')
+      // todo: change this verified with server
+      if (this.verifyToken === VerifiedToken) {
+        this.setVerified(true)
+        this.$router.push({path: '/Dashbord/User'})
+      } else {
+        this.setError({message: 'Token Invalid'})
+      }
+    }
+  },
+
+  created () {
+    if (this.verified) {
       this.$router.push('Dashbord')
     }
   }
@@ -55,7 +86,7 @@ export default {
 
   #init-admin-head {
     min-height: 200px;
-    height: 80%;
+    height: 60%;
   }
   #init-admin-head > p {
     text-indent: 2em;

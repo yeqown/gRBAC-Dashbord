@@ -24,7 +24,7 @@ const actions = {
     getAllPerms({limit, skip}).then(data => {
       if (data.code === 0) {
         commit('setPerms', {perms: data.permissions})
-        commit('setMessage', data.message)
+        commit('setMessage', '获取权限列表' + data.message)
         return
       }
       commit('setError', {message: data.message})
@@ -38,7 +38,7 @@ const actions = {
     newPerm({name, desc}).then(data => {
       // console.log(data)
       if (data.code === 0) {
-        commit('setMessage', data.message)
+        commit('setMessage', '新建权限' + data.message)
         return
       }
       commit('setError', {message: data.message})
@@ -52,7 +52,7 @@ const actions = {
     editPerm({name, desc, id}).then(data => {
       // console.log(data)
       if (data.code === 0) {
-        commit('setMessage', data.message)
+        commit('setMessage', '更新权限' + data.message)
         return
       }
       commit('setError', {message: data.message})

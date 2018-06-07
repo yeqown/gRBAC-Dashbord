@@ -29,12 +29,16 @@ export default {
     },
 
     message (newVal, oldVal) {
-      console.log(newVal)
+      // console.log(newVal)
       if (!newVal) {
         return
       }
       this.$Notice.success({title: '提示', desc: newVal})
     }
+  },
+
+  created () {
+    // todo: need refresh verify in this client?
   }
 }
 </script>
