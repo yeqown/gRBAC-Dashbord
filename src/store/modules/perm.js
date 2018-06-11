@@ -20,8 +20,8 @@ const getters = {
 }
 
 const actions = {
-  allPerms ({commit, state}, {limit = 10, skip = 0}) {
-    getAllPerms({limit, skip}).then(data => {
+  allPerms ({commit, state, rootGetters}, {limit = 10, skip = 0}) {
+    getAllPerms({limit, skip, token: rootGetters.token}).then(data => {
       if (data.code === 0) {
         commit('setPerms', {perms: data.permissions})
         commit('setMessage', '获取权限列表' + data.message)
@@ -34,8 +34,8 @@ const actions = {
     })
   },
 
-  createPerm ({commit, state}, {name, desc}) {
-    newPerm({name, desc}).then(data => {
+  createPerm ({commit, state, rootGetters}, {name, desc}) {
+    newPerm({name, desc, token: rootGetters.token}).then(data => {
       // console.log(data)
       if (data.code === 0) {
         commit('setMessage', '新建权限' + data.message)
@@ -48,8 +48,8 @@ const actions = {
     })
   },
 
-  updatePerm ({commit, state}, {name, desc, id}) {
-    editPerm({name, desc, id}).then(data => {
+  updatePerm ({commit, state, rootGetters}, {name, desc, id}) {
+    editPerm({name, desc, id, token: rootGetters.token}).then(data => {
       // console.log(data)
       if (data.code === 0) {
         commit('setMessage', '更新权限' + data.message)

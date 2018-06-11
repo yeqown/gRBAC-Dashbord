@@ -4,6 +4,7 @@ import querystring from 'querystring'
 
 // const API_BASE_URL = 'http://localhost:25050'
 const API_BASE_URL = 'https://api.prod.gogofinance.com/auth'
+// const API_BASE_URL = 'https://api.dev.gogofinance.com/auth'
 
 class ApiHttpError {
   constructor (code, message) {

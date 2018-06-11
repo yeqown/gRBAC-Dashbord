@@ -4,7 +4,7 @@
       <div id="init-admin-head">
         <h2>Verify Root-admin Token</h2>
         <p>gRBAC-Server initial setup is required. An admin user has been created and a password generated. Please use the following password to proceed to installation:</p>
-        <code>e7a57e0abb8f461f97e1f7c22bf5d97b</code>
+        <code>e7a57exxxxxxxxxxxf5d97b</code>
         <p>This may also be found at: path/to/gRBAC-Server/secrets/initialAdminPassword</p>
       </div>
 
@@ -21,8 +21,8 @@
 
 <script type="text/javascript">
 import '@/styles/global.css'
-import {VerifiedToken} from '@/config'
-import {mapMutations, mapGetters} from 'vuex'
+// import {VerifiedToken} from '@/config'
+import {mapMutations, mapGetters, mapActions} from 'vuex'
 export default {
   name: 'Verify',
   data () {
@@ -43,13 +43,19 @@ export default {
       setError: 'setError'
     }),
 
+    ...mapActions({
+      verifyClient: 'verifyClient'
+    }),
+
     gotoDashbord () {
-      // todo: change this verified with server
-      if (this.verifyToken === VerifiedToken) {
-        this.setVerified(true)
+      this.verifyClient({secret: this.verifyToken})
+    }
+  },
+
+  watch: {
+    verified (newVal, oldVal) {
+      if (newVal) {
         this.$router.push({path: '/Dashbord/User'})
-      } else {
-        this.setError({message: 'Token Invalid'})
       }
     }
   },

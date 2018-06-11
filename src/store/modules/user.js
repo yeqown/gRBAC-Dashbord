@@ -43,8 +43,8 @@ const getters = {
 
 // actions for api connect
 const actions = {
-  addUser ({commit, state}, {mobile}) {
-    newUser({mobile}).then(data => {
+  addUser ({commit, state, rootGetters}, {mobile}) {
+    newUser({mobile, token: rootGetters.token}).then(data => {
       // console.log(data)
       if (data.code === 0) {
         commit('setMessage', '新建用户' + data.message)
@@ -56,9 +56,9 @@ const actions = {
     })
   },
 
-  allUsers ({commit, state}, {limit = 10, skip = 0}) {
+  allUsers ({commit, state, rootGetters}, {limit = 10, skip = 0}) {
     // console.log('all users')
-    getAllUsers({limit, skip}).then(data => {
+    getAllUsers({limit, skip, token: rootGetters.token}).then(data => {
       if (data.code === 0) {
         commit('refreshUsers', {users: data.users, total: data.total})
         commit('setMessage', '获取用户列表' + data.message)
@@ -71,9 +71,9 @@ const actions = {
     })
   },
 
-  assignRole ({commit, state}, {userId, roleId}) {
+  assignRole ({commit, state, rootGetters}, {userId, roleId}) {
     // console.log('assign users')
-    assignRoletoUser({user_id: userId, role_id: roleId}).then(data => {
+    assignRoletoUser({user_id: userId, role_id: roleId, token: rootGetters.token}).then(data => {
       // console.log(data)
       if (data.code === 0) {
         commit('setMessage', '用户赋予权限' + data.message)
@@ -86,9 +86,9 @@ const actions = {
     })
   },
 
-  revokeRole ({commit, state}, {userId, roleId}) {
+  revokeRole ({commit, state, rootGetters}, {userId, roleId}) {
     // console.log('revoke users')
-    revokeRolefromUser({user_id: userId, role_id: roleId}).then(data => {
+    revokeRolefromUser({user_id: userId, role_id: roleId, token: rootGetters}).then(data => {
       // console.log(data)
       if (data.code === 0) {
         commit('setMessage', '用户移除权限' + data.message)

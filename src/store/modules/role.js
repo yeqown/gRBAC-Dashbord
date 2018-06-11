@@ -28,8 +28,8 @@ const getters = {
 }
 
 const actions = {
-  allRoles ({commit, state}, {limit = 10, skip = 0}) {
-    getAllRoles({limit, skip}).then(data => {
+  allRoles ({commit, state, rootGetters}, {limit = 10, skip = 0}) {
+    getAllRoles({limit, skip, token: rootGetters.token}).then(data => {
       if (data.code === 0) {
         commit('setRoles', {roles: data.roles, total: data.total})
         commit('setMessage', '获取角色列表' + data.message)
@@ -41,8 +41,8 @@ const actions = {
     })
   },
 
-  createRole ({commit, state}, {name}) {
-    newRole({name}).then(data => {
+  createRole ({commit, state, rootGetters}, {name}) {
+    newRole({name, token: rootGetters.token}).then(data => {
       // console.log(data)
       if (data.code === 0) {
         commit('setMessage', '新建角色' + data.message)
@@ -55,8 +55,8 @@ const actions = {
     })
   },
 
-  assignPerm ({commit, state}, {role_id, perm_id}) {
-    assignPermtoRole({role_id, perm_id}).then(data => {
+  assignPerm ({commit, state, rootGetters}, {role_id, perm_id}) {
+    assignPermtoRole({role_id, perm_id, token: rootGetters.token}).then(data => {
       // console.log(data)
       if (data.code === 0) {
         commit('setMessage', '角色增加权限' + data.message)
@@ -69,8 +69,8 @@ const actions = {
     })
   },
 
-  revokePerm ({commit, state}, {role_id, perm_id}) {
-    revokePermfromRole({role_id, perm_id}).then(data => {
+  revokePerm ({commit, state, rootGetters}, {role_id, perm_id}) {
+    revokePermfromRole({role_id, perm_id, token: rootGetters.token}).then(data => {
       // console.log(data)
       if (data.code === 0) {
         commit('setMessage', '角色移除权限' + data.message)
