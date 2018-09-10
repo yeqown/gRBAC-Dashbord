@@ -88,7 +88,7 @@ const actions = {
 
   revokeRole ({commit, state, rootGetters}, {userId, roleId}) {
     // console.log('revoke users')
-    revokeRolefromUser({user_id: userId, role_id: roleId, token: rootGetters}).then(data => {
+    revokeRolefromUser({user_id: userId, role_id: roleId, token: rootGetters.token}).then(data => {
       // console.log(data)
       if (data.code === 0) {
         commit('setMessage', '用户移除权限' + data.message)

@@ -15,6 +15,12 @@
       <h3>权限描述：{{perm.descrip}}</h3>
     </Card>
 
+    <!-- footer -->
+    <div class="perm-foot">
+      <Page :total="total" :current="page" show-total
+        size="small" @on-change="hdlPageChange"></Page>
+    </div>
+
     <Modal
       v-model="newPermMoalVisible"
       :title="modalTitle"
@@ -49,6 +55,7 @@ export default {
       newPermMoalVisible: false,
       mode: ModeNew,
       modalTitle: '',
+      page: 1,
       permForm: {
         id: null,
         name: '',
@@ -59,7 +66,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      perms: 'originPerms'
+      perms: 'originPerms',
+      total: 'totalPerms'
     })
   },
 
@@ -107,11 +115,21 @@ export default {
         name: perm.name,
         descrip: perm.descrip
       }
+    },
+
+    hdlPageChange (page) {
+      this.page = page
+    }
+  },
+
+  watch: {
+    page (newVal, oldVal) {
+      this.allPerms({limit: 10, skip: (this.page - 1) * 10})
     }
   },
 
   mounted () {
-    this.allPerms({limit: 10, skip: 0})
+    this.allPerms({limit: 10, skip: (this.page - 1) * 10})
     // console.log(this.perms)
   }
 }

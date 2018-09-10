@@ -16,14 +16,15 @@ const getters = {
       perm.disabled = false
       return perm
     })
-  }
+  },
+  totalPerms: state => state.total
 }
 
 const actions = {
   allPerms ({commit, state, rootGetters}, {limit = 10, skip = 0}) {
     getAllPerms({limit, skip, token: rootGetters.token}).then(data => {
       if (data.code === 0) {
-        commit('setPerms', {perms: data.permissions})
+        commit('setPerms', {perms: data.permissions, total: data.total})
         commit('setMessage', '获取权限列表' + data.message)
         return
       }
@@ -64,8 +65,9 @@ const actions = {
 }
 
 const mutations = {
-  setPerms (state, {perms}) {
+  setPerms (state, {perms, total}) {
     state.perms = perms
+    state.total = total
   }
 }
 
