@@ -1,10 +1,12 @@
 import axios from 'axios'
 import querystring from 'querystring'
-// import {parse} from 'url'
 
-// const API_BASE_URL = 'http://localhost:25050'
-const API_BASE_URL = 'https://api.prod.gogofinance.com/auth'
-// const API_BASE_URL = 'https://api.dev.gogofinance.com/auth'
+var API_BASE_URL = 'http://localhost:8080/auth'
+
+export function apisCallback (configJSON) {
+  API_BASE_URL = configJSON.URL
+  client.defaults.baseURL = API_BASE_URL
+}
 
 class ApiHttpError {
   constructor (code, message) {
@@ -37,10 +39,6 @@ export let client = axios.create({
 
 client.interceptors.request.use(
   config => {
-    // let {method, url, params, data, background} = config
-    // console.log('request with: ', method, url, params || data)
-    // if (!background) {
-    // }
     return config
   },
   error => {
@@ -51,13 +49,6 @@ client.interceptors.request.use(
 
 client.interceptors.response.use(
   response => {
-    // let {status, data, config: {url, background}} = response
-    // let {path} = parse(url)
-    // console.log(status, path, data)
-    // if (!background) {
-    // }
-    // let {data} = response
-    // console.log('response', data)
     return response
   },
   error => {
@@ -137,12 +128,12 @@ export function putApi (url, data = {}, {headers = {}, json = false, urlencoded 
 }
 
 export function requestApi (config) {
+  // config.url = API_BASE_URL + config.url
   return client.request(config)
     .then(response => {
       if (config.responseType === 'text') {
         return response.data
       }
-
       if (response.data.code === 0) {
         return response.data
       } else {

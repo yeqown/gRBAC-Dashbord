@@ -6,6 +6,8 @@ import router from './router'
 import iView, { Notice } from 'iview'
 import store from './store'
 import 'iview/dist/styles/iview.css'
+import {setup} from '@/config'
+import {apisCallback} from '@/apis'
 // import '@/theme/iview.css'
 
 Vue.use(iView)
@@ -13,11 +15,20 @@ Vue.config.productionTip = false
 
 Vue.prototype.$Notice = Notice
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  store,
-  components: { App },
-  template: '<App/>'
+Date.prototype.test = 1
+
+setup().then(configJSON => {
+  apisCallback(configJSON)
+
+  // console.log('setup then called')
+  /* eslint-disable no-new */
+  new Vue({
+    el: '#app',
+    router,
+    store,
+    components: { App },
+    template: '<App/>'
+  })
+}).catch(err => {
+  throw err
 })

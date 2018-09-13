@@ -13,7 +13,13 @@
       </div>
 
       <div id="init-admin-btn">
-        <Button type="primary" size="large" @click="gotoDashbord"> Continue </Button>
+        <Button
+          type="primary"
+          size="large"
+          :disabled="continueBtnDisabled"
+          @click="gotoDashbord">
+            Continue
+        </Button>
       </div>
     </div>
   </div>
@@ -21,13 +27,14 @@
 
 <script type="text/javascript">
 import '@/styles/global.css'
-// import {VerifiedToken} from '@/config'
 import {mapMutations, mapGetters, mapActions} from 'vuex'
 export default {
   name: 'Verify',
   data () {
     return {
-      verifyToken: ''
+      verifyToken: '',
+      continueBtnDisabled: false,
+      restSecs: 0
     }
   },
 
@@ -48,6 +55,10 @@ export default {
     }),
 
     gotoDashbord () {
+      if (this.continueBtnDisabled) {
+        return
+      }
+
       this.verifyClient({secret: this.verifyToken})
     }
   },

@@ -86,11 +86,21 @@ export default {
         },
         {
           title: '更新时间',
-          key: 'updateTime'
+          key: 'updateTime',
+          width: 150,
+          render: (h, params) => {
+            let updateTime = (new Date(params.row.updateTime)).format('yyyy-MM-dd hh:mm:ss')
+            return h('span', updateTime)
+          }
         },
         {
           title: '创建时间',
-          key: 'createTime'
+          key: 'createTime',
+          width: 150,
+          render: (h, params) => {
+            let createTime = (new Date(params.row.createTime)).format('yyyy-MM-dd hh:mm:ss')
+            return h('span', createTime)
+          }
         }
       ],
       modalShow: false,

@@ -57,7 +57,7 @@ const RequestError = {
           commit('setVerified', {token: data.token, verified: data.verified})
           return
         }
-        commit('setError', {message: data.message})
+        commit('setError', {message: '验证未通过！'})
       }).catch(err => {
         commit('setError', err)
       })
