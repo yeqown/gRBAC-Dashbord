@@ -95,6 +95,8 @@ export default {
 <style type="text/css" scoped>
   .layout{
     height: 100%;
+    /* width: 80%; */
+    /* margin: 0 auto; */
     background: #f5f7f9;
     position: relative;
     overflow: hidden;

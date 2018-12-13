@@ -1,12 +1,12 @@
 import axios from 'axios'
 import querystring from 'querystring'
 
-var API_BASE_URL = 'http://localhost:8080/auth'
+var API_BASE_URL = ''
 
-export function apisCallback (configJSON) {
-  API_BASE_URL = configJSON.URL
-  client.defaults.baseURL = API_BASE_URL
-}
+// export function apisCallback (configJSON) {
+//   API_BASE_URL = configJSON.URL
+//   client.defaults.baseURL = API_BASE_URL
+// }
 
 class ApiHttpError {
   constructor (code, message) {

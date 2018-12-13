@@ -7,7 +7,7 @@ import iView, { Notice } from 'iview'
 import store from './store'
 import 'iview/dist/styles/iview.css'
 import {setup} from '@/config'
-import {apisCallback} from '@/apis'
+// import {apisCallback} from '@/apis'
 // import '@/theme/iview.css'
 
 Vue.use(iView)
@@ -17,8 +17,8 @@ Vue.prototype.$Notice = Notice
 
 Date.prototype.test = 1
 
-setup().then(configJSON => {
-  apisCallback(configJSON)
+setup().then(() => {
+  // apisCallback(configJSON)
 
   // console.log('setup then called')
   /* eslint-disable no-new */

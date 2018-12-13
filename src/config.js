@@ -1,6 +1,6 @@
 // import {apisCallback} from '@/apis'
 // import { settings } from 'cluster';
-import configJSON from '@/settings.json'
+// import configJSON from '@/settings.json'
 
 export const TOKEN = '129831nas8b12i2sajkd'
 export const VerifiedToken = 'e7a57e0abb8f461f97e1f7c22bf5d97b'
@@ -29,7 +29,7 @@ export function setup () {
     return format_str
   }
 
-  return Promise.resolve(configJSON)
+  return Promise.resolve(null)
 }
 
 export default null

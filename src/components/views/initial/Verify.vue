@@ -2,25 +2,25 @@
   <div>
     <div id="init-admin-wrap">
       <div id="init-admin-head">
-        <h2>Verify Root-admin Token</h2>
-        <p>gRBAC-Server initial setup is required. An admin user has been created and a password generated. Please use the following password to proceed to installation:</p>
-        <code>e7a57exxxxxxxxxxxf5d97b</code>
-        <p>This may also be found at: path/to/gRBAC-Server/secrets/initialAdminPassword</p>
+        <h2 style="color:#fff">Verify Secret</h2>
+        <p style="color:#eee">gRBAC-Server initial secret is required. An admin-roled user has been created, and a password generated. Please use the following password to proceed installation:</p>
+        <br><br>
+        <code>path/to/gRBAC-Server/secrets/initialAdminPassword</code>
       </div>
 
       <div id="init-admin-input">
-        <Input placeholder="Input your token here" v-model="verifyToken" size="large"/>
+        <input placeholder="input your secret here..." v-model="verifyToken" size="large"/>
       </div>
 
-      <div id="init-admin-btn">
-        <Button
-          type="primary"
-          size="large"
-          :disabled="continueBtnDisabled"
-          @click="gotoDashbord">
-            Continue
-        </Button>
-      </div>
+      <a @click="gotoDashbord" id="verify-btn"> Verify </a>
+      <!-- <button
+        type="primary"
+        :disabled="continueBtnDisabled"
+        @click="gotoDashbord">
+          Verify
+      </button> -->
+      <!-- <div id="init-admin-btn">
+      </div> -->
     </div>
   </div>
 </template>
@@ -94,15 +94,16 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #f5f5f5;
-    border-radius: 20px;
-    color: #000;
+    /* background-color: #00BCD4; */
+    background-color: #778d9e;
+    /* border-radius: 20px; */
+    color: #fff;
     padding: 4em;
-    box-shadow: 5px 5px 5px #888888;
+    /* box-shadow: 5px 5px 5px #888888; */
   }
 
   #init-admin-head {
-    min-height: 200px;
+    min-height: 150px;
     height: 60%;
   }
   #init-admin-head > p {
@@ -114,16 +115,46 @@ export default {
   #init-admin-head > code {
     text-align: center;
     font-size: 1.5em;
+    padding: 5px;
     background-color: #e6dede;
     color: #ff5722;
   }
 
   #init-admin-input {
-    min-height: 100px;
+    min-height: 50px;
     height: 20%;
   }
 
-  #init-admin-btn {
+  #verify-btn {
+    font-size: 2em;
+    color:#cac2c2;
+    text-decoration-line: underline;
+  }
 
+  #verify-btn:hover {
+    cursor: pointer;
+    color: #fff;
+  }
+
+  /* button {
+    font-size: 1.5em;
+    min-width: 80px;
+    padding: 0.3em;
+    border: none;
+    color: red;
+    background-color: #fff;
+  }
+
+  button:hover{
+    cursor: pointer;
+    background-color: #eee;
+  } */
+
+  input {
+    font-size: 1.5em;
+    padding: 0.5em;
+    width: 100%;
+    border: none;
+    background-color: #e3e5e6;
   }
 </style>
